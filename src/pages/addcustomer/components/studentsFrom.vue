@@ -1,33 +1,65 @@
 <template>
-  <div id="customercont">
-    <p class="customertite">{{addTitile}}</p>
-    <input-wrap v-for="(item,index) in inputWrapList" :xindex="index" :key="index" @onChange="(value)=>inputChange(value,index)" @onAdd="onAdd" @onDelete="(value)=>onDelete(value,index)"/>
-    <el-tabs type="border-card">
-      <el-tab-pane label="家长信息">
-        <parents-from></parents-from>
-      </el-tab-pane>
-      <el-tab-pane label="学生信息">
-        <students-from></students-from>
-      </el-tab-pane>
-    </el-tabs>
-  </div>
+  <el-form
+    ref="form"
+    :model="form"
+    label-width="80px"
+    :label-position="labelPosition"
+    :disabled="readonly"
+  >
+    <div class="form-item">
+      <el-form-item label="孩子姓名">
+        <el-input v-model="form.name" style="width:200px" placeholder="请输入家长姓名"></el-input>
+      </el-form-item>
+      <el-form-item label="性别">
+        <el-select v-model="form.gender" placeholder="请选择性别" style="width:200px">
+          <el-option label="男" value="男"></el-option>
+          <el-option label="女" value="女"></el-option>
+        </el-select>
+      </el-form-item>
+      <el-form-item label="学生年级" label-width="100px">
+        <el-select v-model="form.gender" placeholder="请输入学生年级" style="width:200px">
+          <el-option label="一年级" value="一年级"></el-option>
+          <el-option label="二年级" value="二年级"></el-option>
+        </el-select>
+      </el-form-item>
+    </div>
+    <div class="form-item">
+      <el-form-item label="城市级联">
+        <el-cascader :options="options" v-model="form.city" style="width:200px"></el-cascader>
+      </el-form-item>
+      <el-form-item label="性格类型">
+        <el-select v-model="form.character" placeholder="请选择性格类型" style="width:200px">
+          <el-option label="害羞" value="害羞"></el-option>
+          <el-option label="开朗" value="开朗"></el-option>
+        </el-select>
+      </el-form-item>
+      <el-form-item label="兴趣爱好">
+        <el-input v-model="form.name" style="width:200px" placeholder="请输入兴趣爱好"></el-input>
+      </el-form-item>
+    </div>
+    <el-form-item label="备注">
+      <el-input type="textarea" v-model="form.desc" style="width:200px"></el-input>
+    </el-form-item>
+    <el-form-item label="标签">
+      <el-button type="primary" plain>
+        打标签
+        <i class="el-icon-plus el-icon--right"></i>
+      </el-button>
+    </el-form-item>
+    <el-form-item>
+      <el-button type="primary" @click="onSubmit">保存</el-button>
+      <el-button type="primary" @click="onSubmit">保存并新增推课</el-button>
+      <el-button>取消</el-button>
+    </el-form-item>
+  </el-form>
 </template>
 <script>
-import studentsFrom from "./components/studentsFrom.vue"
-import parentsFrom from "./components/parentsFrom.vue"
-import inputWrap from "components/inputWrap/index.vue"
 export default {
-   components: {
-    studentsFrom,
-    parentsFrom,
-    inputWrap
-  },
   data() {
     return {
       readonly: false,
       labelPosition: "right",
       addTitile: "新增客户",
-      inputWrapList:[{}],
       options: [
         {
           value: "guangdong",
@@ -115,7 +147,6 @@ export default {
       }
     };
   },
-
   mounted() {
     //1新增2编辑3查看
     console.log(this.$route.query.id);
@@ -136,19 +167,7 @@ export default {
     },
     radioChange(e) {
       console.log(e);
-    },
-    inputChange(value,index){
-      this.inputWrapList[index] = value;
-    },
-    onAdd(){
-      this.inputWrapList =[...this.inputWrapList,{}];
-        console.log(this.inputWrapList)
-    },
-    onDelete(value,index){
-      let newList = [...this.inputWrapList];
-      newList.splice(index,1);
-      this.inputWrapList = newList
-    },
+    }
   }
 };
 </script>
@@ -174,3 +193,4 @@ export default {
   margin-left: 30px;
 }
 </style>
+

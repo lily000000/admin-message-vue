@@ -14,5 +14,9 @@ export default {
   getCustomerTables:{
     method:'get',
     url:'/mock/customerTables.json'
+  },
+  getTagData:{
+    method:'get',
+    url:'/mock/tagData.json'
   }
 }
